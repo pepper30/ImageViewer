@@ -50,8 +50,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         int itemPosition=position;
         Details details=detailsList.get(itemPosition);
         holder.title.setText(details.getTitle());
+        holder.likes_count.setText(String.valueOf(details.getLikes()));
 //        Glide.with(context).load(details.getImgUrl()).into(holder.imageView);
-        Log.i("TAG1", details.toString());
         Picasso.with(context).load(details.getImgUrl()).into(holder.imageView);
     }
 
@@ -65,8 +65,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         ImageView imageView;
         @BindView(R.id.title)
         TextView title;
-        @BindView((R.id.like_button))
+        @BindView(R.id.like_button)
         ImageButton like_button;
+        @BindView(R.id.likes)
+        TextView likes_count;
 
         private ClickHandler clickHandler;
 
