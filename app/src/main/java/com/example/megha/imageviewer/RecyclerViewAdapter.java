@@ -84,7 +84,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 clickHandler.onMyButtonClicked(getAdapterPosition());
             }
         }
+
     }
+
+
 }
 
  interface ClickHandler {

@@ -1,5 +1,6 @@
 package com.example.megha.imageviewer;
 
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Parcelable recyclerViewState;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
@@ -53,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
 //        detailsList=new ArrayList<>();
         db=FirebaseFirestore.getInstance();
         ButterKnife.bind(this);
-
         loadImages();
         listenerRegistration=db.collection("images")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -133,8 +134,10 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
 //                            adapter=new RecyclerViewAdapter(detailsList,db,getApplicationContext());
+
                             RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
                             imageList.setLayoutManager(layoutManager);
+
                             imageList.setItemAnimator(new DefaultItemAnimator());
                             adapter.notifyDataSetChanged();
                             imageList.setAdapter(adapter);
