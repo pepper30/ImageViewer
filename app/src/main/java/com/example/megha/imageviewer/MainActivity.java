@@ -44,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ListenerRegistration listenerRegistration;
     private RecyclerViewAdapter adapter;
-    List<Details> detailsList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        detailsList=new ArrayList<>();
+//        detailsList=new ArrayList<>();
         db=FirebaseFirestore.getInstance();
         ButterKnife.bind(this);
 
@@ -59,18 +59,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
 
-//                        List<Details> list=new ArrayList<>();
+                        final List<Details> list=new ArrayList<>();
                         for(DocumentSnapshot doc:queryDocumentSnapshots){
                             Details details=doc.toObject(Details.class);
-                            detailsList.add(details);
+                            list.add(details);
                         }
 
-                        adapter=new RecyclerViewAdapter(detailsList, db, getApplicationContext(), new ClickHandler() {
+                        adapter=new RecyclerViewAdapter(list, db, getApplicationContext(), new ClickHandler() {
                             @Override
                             public void onMyButtonClicked(int position) {
-                                Log.d("Position", detailsList.get(position).toString());
+                                Log.d("Position", list.get(position).toString());
                                 DocumentReference ref = db.collection("images").document(Integer.toString(position));
-                                ref.update("likes",detailsList.get(position).getLikes() + 1)
+                                ref.update("likes",list.get(position).getLikes() + 1)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
 
-
+                            final List<Details> detailsList = new ArrayList<>();
                             for(DocumentSnapshot doc:task.getResult()){
                                 Details details=doc.toObject(Details.class);
 
