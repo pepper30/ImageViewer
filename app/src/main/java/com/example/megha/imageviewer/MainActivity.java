@@ -68,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
                         adapter=new RecyclerViewAdapter(list, db, getApplicationContext(), new ClickHandler() {
                             @Override
                             public void onMyButtonClicked(int position) {
-                                Log.d("Position", list.get(position).toString());
-                                DocumentReference ref = db.collection("images").document(Integer.toString(position));
+//                                Log.d("Position", list.get(position).toString());
+                                DocumentReference ref = db.collection("images").document(Integer.toString(position + 1));
+                                Log.d("Reference", ref.getPath());
                                 ref.update("likes",list.get(position).getLikes() + 1)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
@@ -112,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
                             adapter = new RecyclerViewAdapter(detailsList,db,getApplicationContext(),new ClickHandler() {
                                 @Override
                                 public void onMyButtonClicked(int position) {
-                                    DocumentReference ref = db.collection("images").document(Integer.toString(position));
+                                    DocumentReference ref = db.collection("images").document(Integer.toString(position + 1));
+                                    Log.d("Reference", ref.getPath());
                                     ref.update("likes",detailsList.get(position).getLikes() + 1)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
