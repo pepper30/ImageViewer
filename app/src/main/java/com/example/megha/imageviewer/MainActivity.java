@@ -10,11 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -65,7 +69,21 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onMyButtonClicked(int position) {
                                 Log.d("Position", detailsList.get(position).toString());
-                            }
+                                DocumentReference ref = db.collection("images").document(Integer.toString(position));
+                                ref.update("likes",detailsList.get(position).getLikes() + 1)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(MainActivity.this,"Liked",Toast.LENGTH_LONG).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(MainActivity.this,"Failed",Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                 }
                         });
                         imageList.setAdapter(adapter);
                     }
@@ -94,7 +112,21 @@ public class MainActivity extends AppCompatActivity {
                             adapter = new RecyclerViewAdapter(detailsList,db,getApplicationContext(),new ClickHandler() {
                                 @Override
                                 public void onMyButtonClicked(int position) {
-                                    Log.d("Position", detailsList.get(position).toString());
+                                    DocumentReference ref = db.collection("images").document(Integer.toString(position));
+                                    ref.update("likes",detailsList.get(position).getLikes() + 1)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(MainActivity.this,"Liked",Toast.LENGTH_LONG).show();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(MainActivity.this,"Failed",Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+
                                 }
                             });
 //                            adapter=new RecyclerViewAdapter(detailsList,db,getApplicationContext());
