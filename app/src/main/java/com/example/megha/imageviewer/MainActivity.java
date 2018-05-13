@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.imageList)
     RecyclerView imageList;
 
-    List<Details> detailsList;
+//    List<Details> detailsList = new ArrayList<>();
     private FirebaseFirestore db;
     private ListenerRegistration listenerRegistration;
     private RecyclerViewAdapter adapter;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        detailsList=new ArrayList<>();
+//        detailsList=new ArrayList<>();
         db=FirebaseFirestore.getInstance();
         ButterKnife.bind(this);
 
