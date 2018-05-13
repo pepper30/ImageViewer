@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "849430350718",
+    "firebase_url": "https://imageviewer-48399.firebaseio.com",
+    "project_id": "imageviewer-48399",
+    "storage_bucket": "imageviewer-48399.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849430350718:android:e0f76b05a26503a4",
+        "android_client_info": {
+          "package_name": "com.example.megha.imageviewer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849430350718-chucujeh2ktochmd7cv2miv76fllup15.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvw2neJ-xfP8hMzEldXTVCkHRM4nVx--k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
