@@ -40,10 +40,12 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ListenerRegistration listenerRegistration;
     private RecyclerViewAdapter adapter;
+    List<Details> detailsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        detailsList=new ArrayList<>();
         db=FirebaseFirestore.getInstance();
         ButterKnife.bind(this);
 
@@ -53,13 +55,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
 
-                        List<Details> list=new ArrayList<>();
+//                        List<Details> list=new ArrayList<>();
                         for(DocumentSnapshot doc:queryDocumentSnapshots){
                             Details details=doc.toObject(Details.class);
-                            list.add(details);
+                            detailsList.add(details);
                         }
 
-                        adapter=new RecyclerViewAdapter(list,db,getApplicationContext());
+                        adapter=new RecyclerViewAdapter(detailsList, db, getApplicationContext(), new ClickHandler() {
+                            @Override
+                            public void onMyButtonClicked(int position) {
+                                Log.d("Position", detailsList.get(position).toString());
+                            }
+                        });
                         imageList.setAdapter(adapter);
                     }
                 });
@@ -75,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
-                            List<Details> detailsList=new ArrayList<>();
+
 
                             for(DocumentSnapshot doc:task.getResult()){
                                 Details details=doc.toObject(Details.class);
@@ -84,7 +91,13 @@ public class MainActivity extends AppCompatActivity {
 //                                Log.d("TAG2", details.toString());
                             }
 
-                            adapter=new RecyclerViewAdapter(detailsList,db,getApplicationContext());
+                            adapter = new RecyclerViewAdapter(detailsList,db,getApplicationContext(),new ClickHandler() {
+                                @Override
+                                public void onMyButtonClicked(int position) {
+                                    Log.d("Position", detailsList.get(position).toString());
+                                }
+                            });
+//                            adapter=new RecyclerViewAdapter(detailsList,db,getApplicationContext());
                             RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
                             imageList.setLayoutManager(layoutManager);
                             imageList.setItemAnimator(new DefaultItemAnimator());

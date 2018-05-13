@@ -25,11 +25,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<Details> detailsList;
     private FirebaseFirestore db;
     private Context context;
+    private ClickHandler clickHandler;
 
-    public RecyclerViewAdapter(List<Details> detailsList, FirebaseFirestore db, Context context) {
+    public RecyclerViewAdapter(List<Details> detailsList, FirebaseFirestore db, Context context,ClickHandler clickHandler) {
         this.detailsList = detailsList;
         this.db = db;
         this.context = context;
+        this.clickHandler = clickHandler;
     }
 
 
@@ -44,15 +46,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
+        holder.clickHandler = this.clickHandler;
         int itemPosition=position;
         Details details=detailsList.get(itemPosition);
         holder.title.setText(details.getTitle());
-        holder.like_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Log.d("Click",v);
-            }
-        });
 //        Glide.with(context).load(details.getImgUrl()).into(holder.imageView);
         Log.i("TAG1", details.toString());
         Picasso.with(context).load(details.getImgUrl()).into(holder.imageView);
@@ -63,7 +60,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return detailsList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.imageView)
         ImageView imageView;
         @BindView(R.id.title)
@@ -71,9 +68,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @BindView((R.id.like_button))
         ImageButton like_button;
 
+        private ClickHandler clickHandler;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            like_button.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (clickHandler != null) {
+                clickHandler.onMyButtonClicked(getAdapterPosition());
+            }
         }
     }
+}
+
+ interface ClickHandler {
+    void onMyButtonClicked(final int position);
 }
